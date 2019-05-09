@@ -4,7 +4,10 @@
  *
  * Copyright (c) 2018-Present Pivotal Software, Inc.
  *
- * reference: https://github.com/greenplum-db/gpdb/wiki/Greenplum-to-Greenplum
+ * reference:
+ * README.endpoint.md
+ * https://github.com/greenplum-db/gpdb/wiki/Greenplum-to-Greenplum
+ *
  */
 
 #include "postgres.h"
