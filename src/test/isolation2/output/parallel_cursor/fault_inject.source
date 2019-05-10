@@ -53,33 +53,36 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1' or token='tk0000000000';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:949)
+
  a  
 ----
  2  
@@ -121,6 +124,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -161,6 +165,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -190,8 +195,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1: CLOSE c1;
 CLOSE
@@ -205,12 +209,15 @@ CLOSE
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
@@ -261,33 +268,36 @@ BEGIN
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id2 | INIT   
- token_id2 | INIT   
- token_id2 | INIT   
+ token_id2 | INIT
+ token_id2 | INIT
+ token_id2 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id2' or token='tk0000000000';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id2";
 ERROR:  failed to attach non-existing endpoint of token token_id2 (cdbendpoint.c:948)
+
  a  
 ----
  2  
@@ -329,6 +339,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id2 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -369,6 +380,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id2 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -398,8 +410,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id2 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1: CLOSE c2;
 CLOSE
@@ -413,12 +424,15 @@ CLOSE
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)

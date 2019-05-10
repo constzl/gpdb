@@ -190,7 +190,6 @@ class GlobalShellExecutor(object):
 class SQLIsolationExecutor(object):
     def __init__(self, dbname=''):
         self.processes = {}
-
         # The re.S flag makes the "." in the regex match newlines.
         # When matched against a command in process_command(), all
         # lines in the command are matched and sent as SQL query.
@@ -225,6 +224,7 @@ class SQLIsolationExecutor(object):
             sp.do()
 
         def query(self, command, out_sh_cmd, global_sh_executor):
+            print >>self.out_file
             self.out_file.flush()
             if len(command.strip()) == 0:
                 return
@@ -241,7 +241,7 @@ class SQLIsolationExecutor(object):
                 for line in new_out:
                     print >>self.out_file, line.rstrip()
             else:
-               print >>self.out_file, r.rstrip()
+                print >>self.out_file, r.rstrip()
 
         def fork(self, command, blocking):
             print >>self.out_file, " <waiting ...>"
@@ -560,9 +560,10 @@ class SQLIsolationExecutor(object):
                 chg_line = '%s%s: %s' % (process_name, flag, sql)
             else:
                 chg_line = sql
-            print >>output_file, chg_line.strip()
+            print >>output_file, chg_line.strip(),
         else:
-            print >>output_file, sql.strip()
+            for line in sql.splitlines():
+                print >>output_file, line.strip(),
 
         if not flag:
             if sql.startswith('!'):
@@ -662,7 +663,6 @@ class SQLIsolationExecutor(object):
         shell_executor = GlobalShellExecutor(output_file, initfile_prefix)
         try:
             command = ""
-
             for line in sql_file:
                 #tinctest.logger.info("re.match: %s" %re.match(r"^\d+[q\\<]:$", line))
                 if line[0] == "!":
@@ -671,7 +671,6 @@ class SQLIsolationExecutor(object):
                     command_part = line.partition("--")[0] # remove comment from line
                 if command_part == "" or command_part == "\n":
                     print >>output_file, line.strip()
-                    print >>output_file
                 elif re.match(r".*;\s*$", line) or re.match(r"^\d+[q\\<]:\s*$", line) or re.match(r"^-?\d+[SUR][q\\<]:\s*$", line):
                     command += command_part
                     try:

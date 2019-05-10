@@ -23,11 +23,11 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
 1: CLOSE c1;
 CLOSE
@@ -41,12 +41,15 @@ CLOSE
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
+
  token | databaseid | senderpid | receiverpid | attached | dbid | sessionid | userid 
 -------+------------+-----------+-------------+----------+------+-----------+--------
 (0 rows)
@@ -131,33 +134,36 @@ DECLARE
 1: DECLARE c11 PARALLEL CURSOR FOR SELECT * FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
  a  
 ----
  2  
@@ -199,6 +205,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -239,6 +246,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -268,16 +276,15 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -302,33 +309,36 @@ DECLARE
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
  a  
 ----
  2  
@@ -370,6 +380,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -410,6 +421,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -439,16 +451,15 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -459,24 +470,26 @@ BEGIN
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t1 ORDER BY a LIMIT 10;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
 (0 rows)
@@ -494,18 +507,20 @@ DECLARE
  9  
  10 
 (10 rows)
-ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
-ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
 
-1<:
- <... completed>
+ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
+ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -516,24 +531,26 @@ BEGIN
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t1 ORDER BY a LIMIT 0;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
 (0 rows)
@@ -541,18 +558,20 @@ DECLARE
  a 
 ---
 (0 rows)
-ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
-ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
 
-1<:
- <... completed>
+ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
+ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -563,53 +582,57 @@ BEGIN
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t2;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
- a 
----
-(0 rows)
- a 
----
-(0 rows)
+
  a 
 ---
 (0 rows)
 
-1<:
- <... completed>
+ a 
+---
+(0 rows)
+
+ a 
+---
+(0 rows)
+
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -620,39 +643,43 @@ BEGIN
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t3;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
  a     
 -------
  2test 
  3test 
  5test 
 (3 rows)
+
  a      
 --------
  4test  
@@ -661,22 +688,22 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  9test  
  10test 
 (5 rows)
+
  a     
 -------
  1test 
  8test 
 (2 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -687,53 +714,57 @@ BEGIN
 1: DECLARE c2 PARALLEL CURSOR FOR SELECT * FROM t4;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c2;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c2;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
- a 
----
-(0 rows)
- a 
----
-(0 rows)
+
  a 
 ---
 (0 rows)
 
-1<:
- <... completed>
+ a 
+---
+(0 rows)
+
+ a 
+---
+(0 rows)
+
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c2';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -744,12 +775,11 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * FROM t1 WHERE a = 50;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -762,14 +792,13 @@ DECLARE
  50 
 (1 row)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 -- check no endpoint info
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -780,12 +809,11 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT SUM(a) FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 -1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -798,13 +826,12 @@ DECLARE
  5050 
 (1 row)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -815,12 +842,11 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT AVG(a) FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 -1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -833,13 +859,12 @@ DECLARE
  50.5000000000000000 
 (1 row)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -850,12 +875,11 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT COUNT(*) FROM t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 -1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -868,13 +892,12 @@ DECLARE
  100   
 (1 row)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -885,17 +908,17 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * FROM t1, t5 where t1.a = t5.b;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:874)
+
  a | b 
 ---+---
  2 | 2 
@@ -904,10 +927,12 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  7 | 7 
  8 | 8 
 (5 rows)
+
  a | b 
 ---+---
  1 | 1 
 (1 row)
+
  a  | b  
 ----+----
  5  | 5  
@@ -916,15 +941,14 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  10 | 10 
 (4 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -935,12 +959,11 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT COUNT(*) FROM t1, t5 where t1.a = t5.b;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
+ token_id1 | INIT
 (1 row)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 -1R:  RETRIEVE ALL FROM "token_id1";
  count 
@@ -948,13 +971,12 @@ DECLARE
  10    
 (1 row)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
+ token_id1 | FINISH
 (1 row)
 1: ROLLBACK;
 ROLLBACK
@@ -965,33 +987,36 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * from t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
+
  a  
 ----
  2  
@@ -1033,6 +1058,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -1073,6 +1099,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -1102,30 +1129,32 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
+
  a  
 ----
  2  
@@ -1167,6 +1196,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -1207,6 +1237,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -1236,15 +1267,14 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -1255,33 +1285,36 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * from t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
+
  a  
 ----
  2  
@@ -1323,6 +1356,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -1363,6 +1397,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -1392,37 +1427,36 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-0Rq:
-... <quitting>
-1Rq:
-... <quitting>
-2Rq:
-... <quitting>
+0Rq: ... <quitting>
+1Rq: ... <quitting>
+2Rq: ... <quitting>
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 *R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
 ----------
 (0 rows)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
+
  attached 
 ----------
  0        
 (1 row)
 *R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
+
  a  
 ----
  2  
@@ -1464,6 +1498,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  97 
  99 
 (38 rows)
+
  a  
 ----
  1  
@@ -1504,6 +1539,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  95 
  98 
 (37 rows)
+
  a   
 -----
  5   
@@ -1533,15 +1569,14 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
  100 
 (25 rows)
 
-1<:
- <... completed>
+1<:  <... completed>
 EXECUTE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | FINISH 
- token_id1 | FINISH 
- token_id1 | FINISH 
+ token_id1 | FINISH
+ token_id1 | FINISH
+ token_id1 | FINISH
 (3 rows)
 1: ROLLBACK;
 ROLLBACK
@@ -1565,14 +1600,13 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * from t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 0R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -1582,8 +1616,7 @@ DECLARE
 0R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  canceling statement due to user request
 
-1<:
- <... completed>
+1<:  <... completed>
 ERROR:  canceling MPP operation  (seg0 127.0.0.1:25432 pid=401)
 
 1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
@@ -1600,8 +1633,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
 2R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
 
-1<:
- <... completed>
+1<:  <... completed>
 FAILED:  Execution failed
 1: ROLLBACK;
 ROLLBACK
@@ -1632,14 +1664,13 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * from t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -1649,8 +1680,7 @@ DECLARE
 1R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  canceling statement due to user request
 
-1<:
- <... completed>
+1<:  <... completed>
 ERROR:  canceling MPP operation  (seg1 127.0.0.1:25433 pid=26515)
 
 0R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
@@ -1667,8 +1697,7 @@ ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c
 2R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
 
-1<:
- <... completed>
+1<:  <... completed>
 FAILED:  Execution failed
 1: ROLLBACK;
 ROLLBACK
@@ -1694,14 +1723,13 @@ BEGIN
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * from t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
-1&: EXECUTE PARALLEL CURSOR c1;
- <waiting ...>
+1&: EXECUTE PARALLEL CURSOR c1;  <waiting ...>
 
 1R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
  attached 
@@ -1758,8 +1786,7 @@ DECLARE
 0R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  fault triggered, fault name:'fetch_tuples_from_endpoint' fault type:'error'
 
-1<:
- <... completed>
+1<:  <... completed>
 ERROR:  canceling MPP operation  (seg0 127.0.0.1:25432 pid=31406)
 
 2R:  SELECT attached FROM GP_ENDPOINTS_STATUS_INFO() WHERE token='token_id1';
@@ -1769,8 +1796,7 @@ ERROR:  canceling MPP operation  (seg0 127.0.0.1:25432 pid=31406)
 2R:  RETRIEVE ALL FROM "token_id1";
 ERROR:  failed to attach non-existing endpoint of token token_id1 (cdbendpoint.c:881)
 
-1<:
- <... completed>
+1<:  <... completed>
 FAILED:  Execution failed
 1: ROLLBACK;
 ROLLBACK
@@ -1788,11 +1814,11 @@ SAVEPOINT
 1: DECLARE c1 PARALLEL CURSOR FOR SELECT * from t1;
 DECLARE
 1:  SELECT token,status FROM GP_ENDPOINTS WHERE cursorname='c1';
- token        | status 
+ token        | status
 --------------+--------
- token_id1 | INIT   
- token_id1 | INIT   
- token_id1 | INIT   
+ token_id1 | INIT
+ token_id1 | INIT
+ token_id1 | INIT
 (3 rows)
 1: ROLLBACK TO s1;
 ROLLBACK
